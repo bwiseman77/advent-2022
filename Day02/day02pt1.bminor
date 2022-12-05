@@ -1,0 +1,73 @@
+// some fun standard library fun stuff
+fd:integer;
+fgets:function integer (s:string, size:integer, file:integer);
+fopen:function integer (path:string, mode:string);
+strcmp:function integer (s:string, s2:string);
+strtok:function integer (s:string, s2:string);
+atoi:function string (s:string);
+
+
+line:string = "buffer";
+main:function integer () = {
+
+    // try reading with fgets
+    buff:string = "buffer";
+    fd:integer = fopen("data.txt","r");
+    status: integer = fgets(buff, 4096, fd);
+
+    // A/X = rock, B/Y = paper, C/Z = scissors
+    // rock = 1, paper = 2, scissors = 3
+    // win = 6, draw = 3, loss = 0
+    score:integer = 0;
+    temp: integer = 0;
+    while(status != 0) {
+
+        // rock + draw
+        if(strcmp(buff, "A X\n") == 0)
+            temp = 1 + 3;
+
+        // paper + win
+        if(strcmp(buff, "A Y\n") == 0)
+            temp = 2 + 6;
+
+        // scissors + loss
+        if(strcmp(buff, "A Z\n") == 0)
+            temp = 3 + 0;
+
+        // rock + loss
+        if(strcmp(buff, "B X\n") == 0)
+            temp = 1 + 0;
+
+        // paper + draw
+        if(strcmp(buff, "B Y\n") == 0)
+            temp = 2 + 3;
+
+
+        // scissors + win
+        if(strcmp(buff, "B Z\n") == 0)
+            temp = 3 + 6;
+
+        // rock + win
+        if(strcmp(buff, "C X\n") == 0)
+            temp = 1 + 6;
+
+
+        // paper + loss
+        if(strcmp(buff, "C Y\n") == 0)
+            temp = 2 + 0;
+
+
+        // scissors + draw
+        if(strcmp(buff, "C Z\n") == 0)
+            temp = 3 + 3;
+
+        // acc
+        score = score + temp;
+        //print score, "\n";
+
+        status = fgets(buff, 4096, fd);
+    }
+
+    print score, "\n";
+    return 0;
+}
